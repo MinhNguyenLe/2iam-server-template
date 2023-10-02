@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
 import config from "@config/config";
+import { connect } from "mongoose";
 
-mongoose.set("strictQuery", false);
+const uri = config.mongoUri;
 
-main().catch((err) => console.log(err));
-async function main() {
-  await mongoose.connect(config.mongoUri);
-}
+connect(uri, {
+  serverSelectionTimeoutMS: 5000,
+  dbName: "db_templates",
+}).catch((err) => console.log("??", err.reason));
