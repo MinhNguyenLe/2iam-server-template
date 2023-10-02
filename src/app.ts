@@ -1,16 +1,18 @@
-import express, { Application } from 'express';
+import express, { Application } from "express";
 
-import api from 'api';
-import httpContext from 'express-http-context';
-import consts from '@config/consts';
-import httpLogger from '@core/utils/httpLogger';
-import errorHandling from '@core/middlewares/errorHandling.middleware';
-import uniqueReqId from '@core/middlewares/uniqueReqId.middleware';
-import http404 from '@components/404/404.router';
-import swaggerApiDocs from '@components/swagger-ui/swagger.router';
+import api from "api";
+import httpContext from "express-http-context";
+import consts from "@config/consts";
+import httpLogger from "@core/utils/httpLogger";
+import errorHandling from "@core/middlewares/errorHandling.middleware";
+import uniqueReqId from "@core/middlewares/uniqueReqId.middleware";
+import http404 from "@components/404/404.router";
+import swaggerApiDocs from "@components/swagger-ui/swagger.router";
 
+import cors from "cors";
 const app: Application = express();
 
+app.use(cors());
 app.use(httpContext.middleware);
 app.use(httpLogger.successHandler);
 app.use(httpLogger.errorHandler);

@@ -6,4 +6,4 @@ const uri = config.mongoUri;
 connect(uri, {
   serverSelectionTimeoutMS: 5000,
   dbName: "db_templates",
-}).catch((err) => console.log("??", err.reason));
+}).catch((err) => console.log("Mongo error: ", err.reason));
