@@ -1,7 +1,7 @@
 import ErfjModel from "mongo/schema/erfjs";
 
-const getData = (userId: string) => {
-  return ErfjModel.findOne({ userId });
+const getData = (username: string) => {
+  return ErfjModel.findOne({ username });
 };
 
 export { getData };

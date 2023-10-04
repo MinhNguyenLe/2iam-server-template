@@ -1,4 +1,5 @@
-import { Schema, model } from "mongoose";
+import { templateDb } from "mongo";
+import { Schema } from "mongoose";
 
 const ErfjsSchema = new Schema({
   about_me: {
@@ -20,6 +21,6 @@ const ErfjsSchema = new Schema({
     },
   ],
 });
-const ErfjModel = model("erfjs", ErfjsSchema);
+const ErfjModel = templateDb.model("erfjs", ErfjsSchema);
 
 export default ErfjModel;
