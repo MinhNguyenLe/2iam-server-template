@@ -10,7 +10,28 @@ import http404 from "@components/404/404.router";
 import swaggerApiDocs from "@components/swagger-ui/swagger.router";
 
 import cors from "cors";
+
+import passport from "passport";
+import GoogleStrategy from "passport-google-oauth20";
+import config from "@config/config";
+
 const app: Application = express();
+
+passport.use(
+  new GoogleStrategy.Strategy(
+    {
+      clientID: config.googleClientId,
+      clientSecret: config.googleClientSecret,
+      callbackURL: config.googleCallbackUrl,
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      console.log(profile)
+      // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      //   return cb(err, user);
+      // });
+    }
+  )
+);
 
 app.use(cors());
 app.use(httpContext.middleware);

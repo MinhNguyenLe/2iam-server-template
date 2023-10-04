@@ -12,6 +12,9 @@ const envsSchema = Joi.object()
     API_KEY_TOKEN: Joi.string().required(),
     MONGO_URI_DB_TEMPLATES: Joi.string().required(),
     MONGO_URI_DB_DASHBOARD: Joi.string().required(),
+    GOOGLE_CLIENT_ID: Joi.string().required(),
+    GOOGLE_CLIENT_SECRET: Joi.string().required(),
+    GOOGLE_CALLBACK_URL: Joi.string().required(),
   })
   .unknown(true);
 
@@ -32,4 +35,7 @@ export default {
   xApiKey: envVars.API_KEY_TOKEN,
   mongoUriTemplates: envVars.MONGO_URI_DB_TEMPLATES,
   mongoUriDashboard: envVars.MONGO_URI_DB_DASHBOARD,
+  googleClientId: envVars.GOOGLE_CLIENT_ID,
+  googleClientSecret: envVars.GOOGLE_CLIENT_SECRET,
+  googleCallbackUrl: envVars.GOOGLE_CALLBACK_URL,
 };

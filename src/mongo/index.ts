@@ -1,5 +1,5 @@
 import config from "@config/config";
-import { createConnection, connect } from "mongoose";
+import { createConnection } from "mongoose";
 
 const connectDBs = () => {
   try {

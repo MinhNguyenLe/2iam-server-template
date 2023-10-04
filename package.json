@@ -7,9 +7,9 @@
     "node": ">=8.10.0"
   },
   "scripts": {
+    "dev": "ts-node-dev --inspect=0.0.0.0:9229 --exit-child --respawn -r tsconfig-paths/register src/server.ts",
     "build": "tsc && tsc-alias",
     "server:prod": "node dist/server.js",
-    "dev": "ts-node-dev --inspect=0.0.0.0:9229 --exit-child --respawn -r tsconfig-paths/register src/server.ts",
     "test": "jest -c jest.config.js --env=node",
     "test:cov": "jest -c jest.config.js --coverage --env=node",
     "test:watch": "jest -c jest.config.js -i --watchAll",
@@ -49,6 +49,8 @@
     "mongoose": "^7.5.3",
     "morgan": "^1.10.0",
     "node-mocks-http": "^1.11.0",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
     "path": "^0.12.7",
     "runtime-node-refresh": "^1.0.6",
     "supertest": "^6.1.6",
