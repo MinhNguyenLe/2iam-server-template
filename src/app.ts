@@ -14,6 +14,9 @@ import cors from "cors";
 import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20";
 import config from "@config/config";
+// import session from "express-session";
+import cookieSession from "cookie-session";
+import UsersModel from "mongo/schema/users";
 
 const app: Application = express();
 
@@ -23,23 +26,99 @@ passport.use(
       clientID: config.googleClientId,
       clientSecret: config.googleClientSecret,
       callbackURL: config.googleCallbackUrl,
+      scope: ["profile", "email"],
     },
-    function (accessToken, refreshToken, profile, cb) {
-      console.log(profile)
-      // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      //   return cb(err, user);
-      // });
+    async function (accessToken, refreshToken, profile, cb) {
+      const user = await UsersModel.findOne({ "oauth.google.id": profile.id });
+      console.log(profile.displayName, profile.photos);
+
+      console.log(user, 111);
+      if (!user) {
+        const userId = await UsersModel.create({
+          username: profile.id,
+          oauth: {
+            google: {
+              id: profile.id,
+              displayName: profile.displayName,
+              photos: profile.photos,
+            },
+          },
+        });
+        return cb(null, {
+          id: userId._id,
+        });
+      } else {
+        await UsersModel.findOneAndUpdate(
+          { username: profile.id },
+          {
+            "oauth.google.displayName": profile.displayName,
+            "oauth.google.photos": profile.photos,
+          },
+          { upsert: true }
+        );
+        return cb(null, {
+          id: user._id,
+        });
+      }
     }
   )
 );
 
-app.use(cors());
+passport.serializeUser((user, cb) => {
+  console.log("serializeUser", user);
+
+  cb(null, user);
+});
+passport.deserializeUser((user, cb) => {
+  console.log("deserializeUser", user);
+
+  cb(null, user);
+});
+
+app.use(
+  cors({
+    origin: "http://localhost:4444",
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+  })
+);
 app.use(httpContext.middleware);
 app.use(httpLogger.successHandler);
 app.use(httpLogger.errorHandler);
 app.use(uniqueReqId);
 app.use(express.json());
+
+// app.use(
+//   session({
+//     secret: "session",
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: true, maxAge: 60000 },
+//   })
+// );
+app.use(
+  cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: ["secret"],
+    name: "session",
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(consts.API_ROOT_PATH, api);
+
+app.post("/api/logout", (req, res, next) => {
+  // @ts-ignore
+  req.logout(function (err) {
+    console.log("callback logged out");
+    if (err) {
+      return next(err);
+    }
+    res.redirect("http://localhost:4444/login");
+  });
+});
+
 app.use(swaggerApiDocs);
 app.use(http404);
 
