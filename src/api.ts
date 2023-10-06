@@ -15,14 +15,14 @@ router.use(healthCheck);
 router.use(user);
 router.use(erfjs);
 
-router.post("/iam", [googleAuth], async (req: Request, res: Response) => {
+router.get("/iam", [googleAuth], async (req: Request, res: Response) => {
   // @ts-ignore
   const data = await UsersModel.findOne({ _id: req.user.id });
 
   if (!data) {
     res.status(401).send({ message: "User not found. Please sign in." });
   }
-  res.status(200).send({ data });
+  res.status(200).send({ user: data });
 });
 
 router.get(
@@ -40,6 +40,9 @@ router.get(
 );
 router.post("/logout", (req, res, next) => {
   req.session = null;
+  res.status(200).json({
+    message: "Log out successful",
+  });
 });
 
 router.get("/sign-in/failure", (req, res) => {
