@@ -108,17 +108,6 @@ app.use(passport.session());
 
 app.use(consts.API_ROOT_PATH, api);
 
-app.post("/api/logout", (req, res, next) => {
-  // @ts-ignore
-  req.logout(function (err) {
-    console.log("callback logged out");
-    if (err) {
-      return next(err);
-    }
-    res.redirect("http://localhost:4444/login");
-  });
-});
-
 app.use(swaggerApiDocs);
 app.use(http404);
 

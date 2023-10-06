@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Router } from "express";
 import "./mongo";
 import { Request, Response } from "express";
@@ -14,7 +15,7 @@ router.use(healthCheck);
 router.use(user);
 router.use(erfjs);
 
-router.get("/iam", [googleAuth], async (req: Request, res: Response) => {
+router.post("/iam", [googleAuth], async (req: Request, res: Response) => {
   // @ts-ignore
   const data = await UsersModel.findOne({ _id: req.user.id });
 
@@ -37,6 +38,9 @@ router.get(
     failureRedirect: "/api/sign-in/failure",
   })
 );
+router.post("/logout", (req, res, next) => {
+  req.session = null;
+});
 
 router.get("/sign-in/failure", (req, res) => {
   res.status(401).json({
