@@ -71,7 +71,7 @@ passport.deserializeUser((user, cb) => {
 
 app.use(
   cors({
-    origin: "http://localhost:4444",
+    origin: ["http://localhost:4444", "http://localhost:12000"],
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })

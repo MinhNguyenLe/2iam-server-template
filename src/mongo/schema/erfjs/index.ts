@@ -21,6 +21,7 @@ const ErfjsSchema = new Schema({
     },
   ],
   createdAt: Date,
+  userId: String,
 });
 const ErfjModel = templateDb.model("erfjs", ErfjsSchema);
 
