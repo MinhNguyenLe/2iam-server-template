@@ -1,9 +1,15 @@
 import { Request, Response } from "express";
-import { getData } from "@components/erfjs/erfjs.service";
+import { getByUserId, insertErfjs } from "@components/erfjs/erfjs.service";
 
-const getDataController = async (req: Request, res: Response) => {
-  const data = await getData(req.query.username as string);
+const getByUserIdController = async (req: Request, res: Response) => {
+  const data = await getByUserId(req.query.username as string);
   res.send({ data });
 };
 
-export { getDataController };
+const insertErfjsController = async (req: Request, res: Response) => {
+  // @ts-ignore
+  await insertErfjs(req.dataValidated);
+  res.status(200).send({ message: "Successful" });
+};
+
+export { getByUserIdController, insertErfjsController };

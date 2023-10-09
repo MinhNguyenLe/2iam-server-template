@@ -9,7 +9,6 @@ import {
   deleteUser,
 } from "./user.controller";
 import createUserValidation from "./createUser.validation";
-import googleAuth from "@core/middlewares/googleAuth.middleware";
 
 const router: Router = Router();
 

@@ -2,7 +2,8 @@
 import { Request, Response, NextFunction } from "express";
 
 const googleAuth = (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.user, "MIDDLEWARE");
+  console.log("I am ", req.user);
+
   if (req.user) {
     next();
   } else {

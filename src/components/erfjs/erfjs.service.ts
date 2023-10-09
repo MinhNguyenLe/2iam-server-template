@@ -1,7 +1,12 @@
 import ErfjModel from "mongo/schema/erfjs";
 
-const getData = (username: string) => {
+const getByUserId = (username: string) => {
   return ErfjModel.findOne({ username });
 };
 
-export { getData };
+const insertErfjs = async (payload: any) => {
+  console.log(payload)
+  await ErfjModel.create({ ...payload });
+};
+
+export { getByUserId, insertErfjs };

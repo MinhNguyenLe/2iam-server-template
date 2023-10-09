@@ -1,6 +1,7 @@
-import logger from '@core/utils/logger';
+import logger from "@core/utils/logger";
+import { Response } from "express";
 
-import AppError from './appError';
+import AppError from "./appError";
 
 /* eslint class-methods-use-this: ["error", { "exceptMethods": ["handleError", "isTrustedError"] }] */
 class ErrorHandler {
@@ -13,6 +14,10 @@ class ErrorHandler {
       return error.isOperational;
     }
     return false;
+  }
+
+  public missingField(field: { field: any; name: string }, res: Response) {
+    if (!field) res.status(400).send({ message: `Missing ${field.name}` });
   }
 }
 

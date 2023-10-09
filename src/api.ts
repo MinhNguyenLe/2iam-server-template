@@ -6,14 +6,18 @@ import { Request, Response } from "express";
 import healthCheck from "@components/healthcheck/healthCheck.router";
 import user from "@components/user/user.router";
 import erfjs from "@components/erfjs/erfjs.router";
+import templates from "@components/templates/templates.router";
+
 import passport from "passport";
 import UsersModel from "mongo/schema/users";
 import googleAuth from "@core/middlewares/googleAuth.middleware";
 
 const router: Router = Router();
+
 router.use(healthCheck);
 router.use(user);
 router.use(erfjs);
+router.use(templates);
 
 router.get("/iam", [googleAuth], async (req: Request, res: Response) => {
   // @ts-ignore

@@ -16,10 +16,11 @@ const ErfjsSchema = new Schema({
   experience: [
     {
       title: String,
-      date: Date,
-      detail: [String],
+      date: String,
+      details: [String],
     },
   ],
+  createdAt: Date,
 });
 const ErfjModel = templateDb.model("erfjs", ErfjsSchema);
 

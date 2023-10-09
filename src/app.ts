@@ -30,9 +30,7 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, cb) {
       const user = await UsersModel.findOne({ "oauth.google.id": profile.id });
-      console.log(profile.displayName, profile.photos);
 
-      console.log(user, 111);
       if (!user) {
         const userId = await UsersModel.create({
           username: profile.id,
@@ -65,13 +63,9 @@ passport.use(
 );
 
 passport.serializeUser((user, cb) => {
-  console.log("serializeUser", user);
-
   cb(null, user);
 });
 passport.deserializeUser((user, cb) => {
-  console.log("deserializeUser", user);
-
   cb(null, user);
 });
 
