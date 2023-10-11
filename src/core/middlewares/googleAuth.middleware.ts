@@ -7,7 +7,7 @@ const googleAuth = (req: Request, res: Response, next: NextFunction) => {
   if (req.user) {
     next();
   } else {
-    res.status(401).send("Not authenticated");
+    res.status(401).send({ message: "Not authenticated" });
   }
 };
 

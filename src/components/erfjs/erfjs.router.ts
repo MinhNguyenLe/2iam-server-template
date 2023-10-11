@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getByUserIdController, insertErfjsController } from "./erfjs.controller";
+import { getByUserId, insertErfjs, verifyDuplicate } from "./erfjs.controller";
 import googleAuth from "@core/middlewares/googleAuth.middleware";
 
 import { body } from "express-validator";
@@ -13,7 +13,8 @@ import { addCreatedAt, addUserId } from "@core/middlewares";
 
 const router: Router = Router();
 
-router.get("/erfjs/detail", getByUserIdController);
+router.get("/erfjs/detail", getByUserId);
+router.get("/erfjs/verify-duplicate", [googleAuth], verifyDuplicate);
 router.post(
   "/erfjs/insert",
   [
@@ -31,7 +32,7 @@ router.post(
     addCreatedAt,
     addUserId,
   ],
-  insertErfjsController
+  insertErfjs
 );
 
 export default router;

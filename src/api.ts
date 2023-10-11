@@ -11,6 +11,8 @@ import templates from "@components/templates/templates.router";
 import passport from "passport";
 import UsersModel from "mongo/schema/users";
 import googleAuth from "@core/middlewares/googleAuth.middleware";
+import fileUpload from "express-fileupload";
+import pdf from "pdf-parse";
 
 const router: Router = Router();
 
@@ -54,6 +56,13 @@ router.get("/sign-in/failure", (req, res) => {
     error: true,
     message: "Log in failure",
   });
+});
+
+router.post("/convert-pdf", fileUpload(), async (req, res) => {
+  const data = new Uint8Array(req.files.pdf.data);
+  const pdfData = await pdf(data);
+
+  res.status(200).send({ data: pdfData });
 });
 
 export default router;
