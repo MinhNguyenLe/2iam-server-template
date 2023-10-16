@@ -44,6 +44,20 @@ router.get(
     failureRedirect: "/api/sign-in/failure",
   })
 );
+router.get(
+  "/auth/linkedin",
+  passport.authenticate("linkedin", {
+    // state: "SOME STATE",
+  })
+);
+router.get(
+  "/auth/linkedin/callback",
+  passport.authenticate("linkedin", {
+    successRedirect: "http://localhost:4444/dashboard",
+    failureRedirect: "/api/sign-in/failure",
+  })
+);
+
 router.post("/logout", (req, res, next) => {
   req.session = null;
   res.status(200).json({

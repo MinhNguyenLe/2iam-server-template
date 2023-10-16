@@ -15,6 +15,9 @@ const envsSchema = Joi.object()
     GOOGLE_CLIENT_ID: Joi.string().required(),
     GOOGLE_CLIENT_SECRET: Joi.string().required(),
     GOOGLE_CALLBACK_URL: Joi.string().required(),
+    LINKEDIN_CLIENT_ID: Joi.string().required(),
+    LINKEDIN_CLIENT_SECRET: Joi.string().required(),
+    LINKEDIN_CALLBACK_URL: Joi.string().required(),
   })
   .unknown(true);
 
@@ -38,4 +41,7 @@ export default {
   googleClientId: envVars.GOOGLE_CLIENT_ID,
   googleClientSecret: envVars.GOOGLE_CLIENT_SECRET,
   googleCallbackUrl: envVars.GOOGLE_CALLBACK_URL,
+  linkedinClientId: envVars.LINKEDIN_CLIENT_ID,
+  linkedinClientSecret: envVars.LINKEDIN_CLIENT_SECRET,
+  linkedinCallbackUrl: envVars.LINKEDIN_CALLBACK_URL,
 };

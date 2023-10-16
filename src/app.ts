@@ -13,6 +13,7 @@ import cors from "cors";
 
 import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20";
+import LinkedInStrategy from "passport-linkedin-oauth2-oidc";
 import config from "@config/config";
 // import session from "express-session";
 import cookieSession from "cookie-session";
@@ -58,6 +59,51 @@ passport.use(
           id: user._id,
         });
       }
+    }
+  )
+);
+
+passport.use(
+  new LinkedInStrategy.Strategy(
+    {
+      clientID: config.linkedinClientId,
+      clientSecret: config.linkedinClientSecret,
+      callbackURL: config.linkedinCallbackUrl,
+      scope: [ "profile", "openid"],
+      profileFields: ["id", "picture-url", "public-profile-url", "headline"],
+    },
+    async function (accessToken, refreshToken, profile, cb) {
+      console.log("debug", profile);
+      return cb(null, profile);
+      // const user = await UsersModel.findOne({ "oauth.google.id": profile.id });
+
+      // if (!user) {
+      //   const userId = await UsersModel.create({
+      //     username: profile.id,
+      //     oauth: {
+      //       google: {
+      //         id: profile.id,
+      //         displayName: profile.displayName,
+      //         photos: profile.photos,
+      //       },
+      //     },
+      //   });
+      //   return cb(null, {
+      //     id: userId._id,
+      //   });
+      // } else {
+      //   await UsersModel.findOneAndUpdate(
+      //     { username: profile.id },
+      //     {
+      //       "oauth.linkedin.displayName": profile.displayName,
+      //       "oauth.linkedin.photos": profile.photos,
+      //     },
+      //     { upsert: true }
+      //   );
+      //   return cb(null, {
+      //     id: user._id,
+      //   });
+      // }
     }
   )
 );
