@@ -20,8 +20,8 @@ const ErfjsSchema = new Schema({
       details: [String],
     },
   ],
-  createdAt: Date,
-  userId: String,
+  created_at: Date,
+  user_id: String,
 });
 const ErfjModel = templateDb.model("erfjs", ErfjsSchema);
 

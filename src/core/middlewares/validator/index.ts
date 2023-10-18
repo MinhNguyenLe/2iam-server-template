@@ -11,7 +11,6 @@ export function validatorString(value: ValidationChain) {
     .isString()
     .withMessage("Must be string")
     .trim()
-    .escape();
 }
 
 export function validatorEmail(value: ValidationChain) {

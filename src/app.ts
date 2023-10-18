@@ -69,11 +69,11 @@ passport.use(
       clientID: config.linkedinClientId,
       clientSecret: config.linkedinClientSecret,
       callbackURL: config.linkedinCallbackUrl,
-      scope: [ "profile", "openid"],
+      scope: ["profile", "openid"],
       profileFields: ["id", "picture-url", "public-profile-url", "headline"],
     },
     async function (accessToken, refreshToken, profile, cb) {
-      console.log("debug", profile);
+      console.log(accessToken, "debug", profile);
       return cb(null, profile);
       // const user = await UsersModel.findOne({ "oauth.google.id": profile.id });
 

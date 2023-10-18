@@ -12,7 +12,6 @@ import createUserValidation from "./createUser.validation";
 
 const router: Router = Router();
 
-// e.g. createUser request's body is validated and protected by api-key
 router.post(
   "/user/",
   [protectedByApiKey, validation(createUserValidation)],
