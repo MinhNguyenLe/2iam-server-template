@@ -13,7 +13,8 @@ import {
   contactSchema,
   iamSchema,
   groupImageSchema,
-  postSchema,myselfSchema
+  postSchema,
+  myselfSchema,
 } from "../common";
 
 const UsersSchema = new Schema({
@@ -24,9 +25,19 @@ const UsersSchema = new Schema({
       id: String,
       displayName: String,
       photos: [{ value: String }],
+      emails: [{ value: String, verified: Boolean }],
+      locale: String,
+      hd: String,
     },
     linkedin: {
       id: String,
+      displayName: String,
+      picture: String,
+      email: String,
+      locale: {
+        country: String,
+        language: String,
+      },
     },
     facebook: {
       id: String,
@@ -34,24 +45,22 @@ const UsersSchema = new Schema({
     github: {
       id: String,
     },
-    twitter: { id: String },
-    instagram: { id: String },
   },
   resume: {
-    link: String,
+    link: String, // download resume by link
     languages: [languageSchema],
     iam: iamSchema,
     summary: summarySchema,
+    contact: contactSchema,
+    educations: [educationSchema],
     experiences: [experienceSchema],
     projects: [projectSchema],
-    educations: [educationSchema],
     skills: [skillSchema],
-    contact: contactSchema,
     certifications: [certificationSchema],
     achievements: [achievementSchema],
     posts: [postSchema],
     group_images: [groupImageSchema],
-    myself: myselfSchema
+    myself: myselfSchema,
   },
 });
 const UsersModel = dashboardDB.model("users", UsersSchema);

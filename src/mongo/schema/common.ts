@@ -11,9 +11,11 @@ export const experienceSchema = {
   skills: [{ name: String, image: String, icon: String }],
   details: [
     {
+      type: String,
       single_content: String,
       group_content: {
         title: String,
+        icon: String,
         lists: [String],
       },
     },
@@ -34,7 +36,7 @@ export const educationSchema = {
   major: String,
   training_place: {
     name: String,
-    icon: String,
+    logo: String,
     link: String,
     image: String,
   },
@@ -66,7 +68,7 @@ export const summarySchema = {
 
 export const skillSchema = {
   title: String,
-  score:Number,
+  score: Number,
   group: {
     name: String,
     image: String,
@@ -86,8 +88,8 @@ export const certificationSchema = {
 };
 
 export const languageSchema = {
-  name: String,
-  certification: [{ name: String, score: Number }],
+  name: String, // English
+  certification: [{ name: String, score: Number }], // TOEIC 900
 };
 
 export const achievementSchema = {
@@ -106,6 +108,7 @@ export const contactSchema = {
   address: String,
   email_service: String,
   current_company: String,
+  website: String,
   social_media: [{ name: String, icon: String, link: String }],
 };
 
@@ -113,6 +116,8 @@ export const iamSchema = {
   position: String,
   iam: String,
   nickname: String,
+  icon: String,
+  image: String,
 };
 
 export const groupImageSchema = { link: String, details: [String] };

@@ -30,6 +30,7 @@ passport.use(
       scope: ["profile", "email"],
     },
     async function (accessToken, refreshToken, profile, cb) {
+      console.log(profile);
       const user = await UsersModel.findOne({ "oauth.google.id": profile.id });
 
       if (!user) {
