@@ -7,6 +7,7 @@ import {
   readUser,
   updateUser,
   deleteUser,
+  updateResume,
 } from "./user.controller";
 import createUserValidation from "./createUser.validation";
 
@@ -20,5 +21,7 @@ router.post(
 router.get("/user/:id", readUser);
 router.put("/user/:id", [protectedByApiKey], updateUser);
 router.delete("/user/:id", [protectedByApiKey], deleteUser);
+
+router.post("/users/update-resume", updateResume);
 
 export default router;

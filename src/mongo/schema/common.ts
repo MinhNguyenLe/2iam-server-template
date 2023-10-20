@@ -12,6 +12,7 @@ export const experienceSchema = {
   details: [
     {
       type: String,
+      paragraph: [String],
       single_content: String,
       group_content: {
         title: String,
@@ -29,7 +30,12 @@ export const projectSchema = {
   name: String,
   link: String,
   group_links: [{ name: String, link: String, icon: String, image: String }],
-  details: [{}],
+  details: [
+    {
+      type: String,
+      paragraph: [String],
+    },
+  ],
 };
 
 export const educationSchema = {
@@ -43,7 +49,12 @@ export const educationSchema = {
   learning_time: String,
   score: String,
   status: String,
-  details: [{}],
+  details: [
+    {
+      type: String,
+      paragraph: [String],
+    },
+  ],
 };
 
 export const summarySchema = {

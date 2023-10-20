@@ -1,7 +1,8 @@
-import AppError from '@core/utils/appError';
-import logger from '@core/utils/logger';
-import httpStatus from 'http-status';
-import { IUser } from './user.interface';
+import AppError from "@core/utils/appError";
+import logger from "@core/utils/logger";
+import httpStatus from "http-status";
+import { IUser } from "./user.interface";
+import UsersModel from "mongo/schema/users";
 
 let userStorage: Array<IUser> = [];
 
@@ -10,7 +11,7 @@ const create = (user: IUser): boolean => {
     logger.debug(`User created: %O`, user);
     return true;
   }
-  throw new AppError(httpStatus.BAD_GATEWAY, 'User was not created!');
+  throw new AppError(httpStatus.BAD_GATEWAY, "User was not created!");
 };
 
 const read = (id: string): IUser => {
@@ -20,7 +21,7 @@ const read = (id: string): IUser => {
 
 const update = (user: IUser): boolean => {
   userStorage = userStorage.map((u) =>
-    u.id === user.id ? { ...u, updatedField: 1 } : u,
+    u.id === user.id ? { ...u, updatedField: 1 } : u
   );
   return true;
 };
@@ -31,4 +32,12 @@ const deleteById = (id: string) => {
   return true;
 };
 
-export { create, read, update, deleteById };
+const updateResumeById = async (userId: string, resume: any) => {
+  console.log(resume)
+  const user: any = await UsersModel.findOne({ _id: userId });
+
+  user.resume = resume;
+  await user.save();
+};
+
+export { create, read, update, deleteById, updateResumeById };
