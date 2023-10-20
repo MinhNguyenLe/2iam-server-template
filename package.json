@@ -2,14 +2,14 @@
   "name": "net.ts",
   "version": "1.0.1",
   "description": "Node Express Template written in TypeScript NET.ts based on nodebestpractices",
-  "main": "src/server.ts",
+  "main": "src/index.ts",
   "engines": {
     "node": ">=8.10.0"
   },
   "scripts": {
     "dev": "ts-node-dev --inspect=0.0.0.0:9229 --exit-child --respawn -r tsconfig-paths/register src/index.ts",
     "build": "tsc && tsc-alias",
-    "server:prod": "node dist/server.js",
+    "server:prod": "node dist/index.js",
     "test": "jest -c jest.config.js --env=node",
     "test:cov": "jest -c jest.config.js --coverage --env=node",
     "test:watch": "jest -c jest.config.js -i --watchAll",
