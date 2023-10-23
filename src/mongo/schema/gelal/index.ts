@@ -9,7 +9,7 @@ import {
 } from "../common";
 import { templateDb } from "mongo";
 
-const GelalSchema = new Schema({
+const GelalsSchema = new Schema({
   created_at: Date,
   user_id: String,
   contact: contactSchema,
@@ -19,6 +19,6 @@ const GelalSchema = new Schema({
   skills: [skillSchema],
   iam: iamSchema,
 });
-const GelalModel = templateDb.model("gelal", GelalSchema);
+const GelalsModel = templateDb.model("gelals", GelalsSchema);
 
-export default GelalModel;
+export default GelalsModel;

@@ -6,6 +6,8 @@ import { Request, Response } from "express";
 import healthCheck from "@components/healthcheck/healthCheck.router";
 import user from "@components/user/user.router";
 import erfjs from "@components/erfjs/erfjs.router";
+import gelal from "@components/gelals/gelals.router";
+
 import templates from "@components/templates/templates.router";
 
 import passport from "passport";
@@ -21,6 +23,8 @@ const router: Router = Router();
 router.use(healthCheck);
 router.use(user);
 router.use(erfjs);
+router.use(gelal);
+
 router.use(templates);
 
 router.get("/started", (req: Request, res: Response) => {
