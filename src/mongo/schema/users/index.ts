@@ -49,19 +49,19 @@ const UsersSchema = new Schema(
     },
     resume: {
       link: String, // download resume by link
-      languages: [languageSchema],
-      iam: iamSchema,
-      summary: summarySchema,
-      contact: contactSchema,
+      iam: iamSchema, // who am i
+      contact: contactSchema, // contact information
+      summary: summarySchema, // more information about me and  career or anything
+      myself: myselfSchema, // more details about myself
+      skills: [skillSchema],
       educations: [educationSchema],
       experiences: [experienceSchema],
       projects: [projectSchema],
-      skills: [skillSchema],
       certifications: [certificationSchema],
       achievements: [achievementSchema],
       posts: [postSchema],
+      languages: [languageSchema],
       group_images: [groupImageSchema],
-      myself: myselfSchema,
     },
   },
   { typeKey: "$type" }

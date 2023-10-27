@@ -33,7 +33,6 @@ const deleteById = (id: string) => {
 };
 
 const updateResumeById = async (userId: string, resume: any) => {
-  console.log(resume)
   const user: any = await UsersModel.findOne({ _id: userId });
 
   user.resume = resume;

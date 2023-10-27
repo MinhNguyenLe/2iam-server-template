@@ -51,8 +51,7 @@ export const educationSchema = {
   status: String,
   details: [
     {
-      type: String,
-      paragraph: [String],
+      paragraph: String,
     },
   ],
 };
@@ -61,32 +60,43 @@ export const summarySchema = {
   my_image: String,
   details: [
     {
-      type: String,
-      paragraphs: [String],
-      lists: {
-        title: String,
-        icon: String,
-        content: [String],
-      },
-      groups: {
-        title: String,
-        icon: String,
-        paragraphs: [String],
-      },
+      paragraph: String,
+      lists: [
+        {
+          content: String,
+        },
+      ],
+      // type: String,
+      // paragraphs: [String],
+      // lists: {
+      //   title: String,
+      //   icon: String,
+      //   content: [String],
+      // },
+      // groups: {
+      //   title: String,
+      //   icon: String,
+      //   paragraphs: [String],
+      // },
     },
   ],
 };
 
 export const skillSchema = {
-  title: String,
+  name: String,
   score: Number,
-  group: {
-    name: String,
-    image: String,
-    icon: String,
-    rating: Number,
-    score: Number,
-  },
+  image: String,
+  icon: String,
+  rating: Number,
+  // title: String,
+  // score: Number,
+  // group: {
+  //   name: String,
+  //   image: String,
+  //   icon: String,
+  //   rating: Number,
+  //   score: Number,
+  // },
 };
 
 export const certificationSchema = {
@@ -114,10 +124,10 @@ export const achievementSchema = {
 };
 
 export const contactSchema = {
-  email: String,
-  phone: String,
+  email: String, // personal email
+  phone_number: String,
   address: String,
-  email_service: String,
+  email_service: String, // email to contact user, can same or different personal email
   current_company: String,
   website: String,
   social_media: [{ name: String, icon: String, link: String }],
@@ -125,7 +135,7 @@ export const contactSchema = {
 
 export const iamSchema = {
   position: String,
-  iam: String,
+  full_name: String,
   nickname: String,
   icon: String,
   image: String,
