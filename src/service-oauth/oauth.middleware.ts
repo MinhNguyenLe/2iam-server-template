@@ -19,16 +19,17 @@ export const googleAuth3m = (
   res: Response,
   next: NextFunction
 ) => {
-  if (req.user) {
-    const email = req.user?.emails?.find((item) => item.verified);
-    console.log(email);
+  next()
+  // if (req.user) {  
+  //   const email = req.user?.emails?.find((item) => item.verified);
+  //   console.log(email);
 
-    if (email.value === "leminh.nguyen@btaskee.com") {
-      next();
-    }
-  }
+  //   if (email.value === "leminh.nguyen@btaskee.com") {
+  //     next();
+  //   }
+  // }
 
-  res.status(401).send({ message: "Not authenticated" });
+  // res.status(401).send({ message: "Not authenticated" });
 };
 
 export default googleAuth;

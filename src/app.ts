@@ -31,6 +31,7 @@ passport.deserializeUser((user, cb) => {
 app.use(
   cors({
     origin: [
+      "http://localhost:3000",
       "http://localhost:4444",
       "http://localhost:12000",
       "http://localhost:5000",

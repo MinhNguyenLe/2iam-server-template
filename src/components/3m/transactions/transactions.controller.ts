@@ -3,9 +3,10 @@ import {
   create,
   getTransactionByType,
   update,
+  getListTransaction,
 } from "./transactions.service";
 
-export async function getListTransaction(req, res) {
+export async function getTotalValue(req, res) {
   try {
     console.log(
       "🔥 3m 🔥 transactions/get-total-value-by-filter >>> ",
@@ -31,9 +32,9 @@ export async function getListTransaction(req, res) {
 
 export async function createTransaction(req, res) {
   try {
-    console.log("🔥 3m 🔥 transactions/create >>> ", req.query);
+    console.log("🔥 3m 🔥 transactions/create >>> ", req.body);
 
-    await create({ type: req.query.type, label: req.query.label });
+    await create({ type: req.body.type, label: req.body.label });
 
     res.status(200).json({ message: "Create new transaction successful" });
   } catch (error) {
@@ -43,12 +44,12 @@ export async function createTransaction(req, res) {
 
 export async function updateTransaction(req, res) {
   try {
-    console.log("🔥 3m 🔥 transactions/update >>> ", req.query);
+    console.log("🔥 3m 🔥 transactions/update >>> ", req.body);
 
     await update({
-      type: req.query.type,
-      label: req.query.label,
-      idTransaction: req.query.idTransaction,
+      type: req.body.type,
+      label: req.body.label,
+      idTransaction: req.body.idTransaction,
     });
 
     res.status(200).json({ message: "Update successful" });
@@ -59,10 +60,10 @@ export async function updateTransaction(req, res) {
 
 export async function removeTransaction(req, res) {
   try {
-    console.log("🔥 3m 🔥 transactions/remove >>> ", req.query);
+    console.log("🔥 3m 🔥 transactions/remove >>> ", req.body);
 
     await update({
-      idTransaction: req.query.idTransaction,
+      idTransaction: req.body.idTransaction,
     });
 
     res.status(200).json({ message: "Remove successful" });
@@ -73,14 +74,35 @@ export async function removeTransaction(req, res) {
 
 export async function changeTransactionTypeController(req, res) {
   try {
-    console.log("🔥 3m 🔥 transactions/change-type >>> ", req.query);
+    console.log("🔥 3m 🔥 transactions/change-type >>> ", req.body);
 
     await changeTransactionType({
-      type: req.query.type,
-      idTransaction: req.query.idTransaction,
+      type: req.body.type,
+      idTransaction: req.body.idTransaction,
     });
 
     res.status(200).json({ message: "Change type successful" });
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+}
+
+export async function getListTransactionByPaginationAndFilter(req, res) {
+  try {
+    console.log(
+      "🔥 3m 🔥 transactions/get-by-filter-and-pagination >>> ",
+      req.query
+    );
+
+    const data = await getListTransaction({
+      filter: req.query.filter,
+      pagination: req.query.pagination,
+    });
+
+    res.status(200).send({
+      data: data[0]?.data || [],
+      total: data[0]?.count?.[0]?.total || 0,
+    });
   } catch (error) {
     res.status(500).send({ error });
   }
