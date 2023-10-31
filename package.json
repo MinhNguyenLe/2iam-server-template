@@ -7,8 +7,8 @@
     "node": ">=8.10.0"
   },
   "scripts": {
-    "dev": "ts-node-dev --inspect=0.0.0.0:9229 --exit-child --respawn -r tsconfig-paths/register src/index.ts",
-    "build": "tsc && tsc-alias",
+    "dev": "cp .env.local .env && ts-node-dev --inspect=0.0.0.0:9229 --exit-child --respawn -r tsconfig-paths/register src/index.ts",
+    "build": "cp .env.production .env && tsc && tsc-alias",
     "server:prod": "node dist/index.js",
     "test": "jest -c jest.config.js --env=node",
     "test:cov": "jest -c jest.config.js --coverage --env=node",

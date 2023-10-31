@@ -3,6 +3,9 @@ import { Router } from "express";
 import "./mongo";
 import { Request, Response } from "express";
 
+// 3m repo
+import transactions from "@components/3m/transactions/transactions.route";
+
 import healthCheck from "@components/healthcheck/healthCheck.router";
 import user from "@components/user/user.router";
 import erfjs from "@components/erfjs/erfjs.router";
@@ -10,20 +13,26 @@ import gelal from "@components/gelals/gelals.router";
 
 import templates from "@components/templates/templates.router";
 
-import passport from "passport";
 import UsersModel from "mongo/schema/users";
-import googleAuth from "@core/middlewares/googleAuth.middleware";
 import fileUpload from "express-fileupload";
 import pdf from "pdf-parse";
+import googleAuth from "service-oauth/oauth.middleware";
 
 import { OpenAI } from "langchain/llms/openai";
 
+import oauth from "service-oauth/oauth.route";
+
 const router: Router = Router();
+
+// 3m repo
+router.use(transactions);
 
 router.use(healthCheck);
 router.use(user);
 router.use(erfjs);
 router.use(gelal);
+
+router.use(oauth);
 
 router.use(templates);
 
@@ -63,47 +72,6 @@ router.get("/iam", [googleAuth], async (req: Request, res: Response) => {
     res.status(401).send({ message: "User not found. Please sign in." });
   }
   res.status(200).send({ user: data });
-});
-
-router.get(
-  "/auth/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  })
-);
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    successRedirect: "http://localhost:4444/dashboard",
-    failureRedirect: "/api/sign-in/failure",
-  })
-);
-router.get(
-  "/auth/linkedin",
-  passport.authenticate("linkedin", {
-    // state: "SOME STATE",
-  })
-);
-router.get(
-  "/auth/linkedin/callback",
-  passport.authenticate("linkedin", {
-    successRedirect: "http://localhost:4444/dashboard",
-    failureRedirect: "/api/sign-in/failure",
-  })
-);
-
-router.post("/logout", (req, res, next) => {
-  req.session = null;
-  res.status(200).json({
-    message: "Log out successful",
-  });
-});
-
-router.get("/sign-in/failure", (req, res) => {
-  res.status(401).json({
-    error: true,
-    message: "Log in failure",
-  });
 });
 
 router.post("/convert-pdf", fileUpload(), async (req, res) => {

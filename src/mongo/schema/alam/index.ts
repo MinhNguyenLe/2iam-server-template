@@ -4,7 +4,7 @@ import {
   experienceSchema,
   projectSchema,
   summarySchema,
-  skillSchema,
+  skillsSchema,
   contactSchema,
   postSchema,
 } from "../common";
@@ -16,7 +16,7 @@ const AlamSchema = new Schema({
   resume_link: String,
   summary: summarySchema,
   contact: contactSchema,
-  skills: [skillSchema],
+  skills: [skillsSchema],
   experiences: [experienceSchema],
   educations: [educationSchema],
   projects: [projectSchema],

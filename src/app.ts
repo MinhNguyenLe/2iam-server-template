@@ -1,5 +1,4 @@
 import express, { Application } from "express";
-
 import api from "api";
 import httpContext from "express-http-context";
 import consts from "@config/consts";
@@ -8,111 +7,24 @@ import errorHandling from "@core/middlewares/errorHandling.middleware";
 import uniqueReqId from "@core/middlewares/uniqueReqId.middleware";
 import http404 from "@components/404/404.router";
 import swaggerApiDocs from "@components/swagger-ui/swagger.router";
-
 import cors from "cors";
-
 import passport from "passport";
-import GoogleStrategy from "passport-google-oauth20";
-import LinkedInStrategy from "passport-linkedin-oauth2-oidc";
-import config from "@config/config";
+
 // import session from "express-session";
 import cookieSession from "cookie-session";
-import UsersModel from "mongo/schema/users";
+import { googleStrategy, linkedInStrategy } from "service-oauth";
 
 const app: Application = express();
 
-passport.use(
-  new GoogleStrategy.Strategy(
-    {
-      clientID: config.googleClientId,
-      clientSecret: config.googleClientSecret,
-      callbackURL: config.googleCallbackUrl,
-      scope: ["profile", "email"],
-    },
-    async function (accessToken, refreshToken, profile, cb) {
-      console.log(profile);
-      const user = await UsersModel.findOne({ "oauth.google.id": profile.id });
-
-      if (!user) {
-        const userId = await UsersModel.create({
-          username: profile.id,
-          oauth: {
-            google: {
-              id: profile.id,
-              displayName: profile.displayName,
-              photos: profile.photos,
-            },
-          },
-        });
-        return cb(null, {
-          id: userId._id,
-        });
-      } else {
-        await UsersModel.findOneAndUpdate(
-          { username: profile.id },
-          {
-            "oauth.google.displayName": profile.displayName,
-            "oauth.google.photos": profile.photos,
-          },
-          { upsert: true }
-        );
-        return cb(null, {
-          id: user._id,
-        });
-      }
-    }
-  )
-);
-
-passport.use(
-  new LinkedInStrategy.Strategy(
-    {
-      clientID: config.linkedinClientId,
-      clientSecret: config.linkedinClientSecret,
-      callbackURL: config.linkedinCallbackUrl,
-      scope: ["profile", "openid"],
-      profileFields: ["id", "picture-url", "public-profile-url", "headline"],
-    },
-    async function (accessToken, refreshToken, profile, cb) {
-      console.log(accessToken, "debug", profile);
-      return cb(null, profile);
-      // const user = await UsersModel.findOne({ "oauth.google.id": profile.id });
-
-      // if (!user) {
-      //   const userId = await UsersModel.create({
-      //     username: profile.id,
-      //     oauth: {
-      //       google: {
-      //         id: profile.id,
-      //         displayName: profile.displayName,
-      //         photos: profile.photos,
-      //       },
-      //     },
-      //   });
-      //   return cb(null, {
-      //     id: userId._id,
-      //   });
-      // } else {
-      //   await UsersModel.findOneAndUpdate(
-      //     { username: profile.id },
-      //     {
-      //       "oauth.linkedin.displayName": profile.displayName,
-      //       "oauth.linkedin.photos": profile.photos,
-      //     },
-      //     { upsert: true }
-      //   );
-      //   return cb(null, {
-      //     id: user._id,
-      //   });
-      // }
-    }
-  )
-);
+passport.use(googleStrategy);
+passport.use(linkedInStrategy);
 
 passport.serializeUser((user, cb) => {
+  console.log("serializeUser", user);
   cb(null, user);
 });
 passport.deserializeUser((user, cb) => {
+  console.log("deserializeUser", user);
   cb(null, user);
 });
 
@@ -151,6 +63,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Must be put this line at the end of setup file
 app.use(consts.API_ROOT_PATH, api);
 
 app.use(swaggerApiDocs);

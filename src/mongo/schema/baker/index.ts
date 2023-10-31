@@ -6,7 +6,7 @@ import {
   iamSchema,
   educationSchema,
   groupImageSchema,
-  skillSchema,
+  skillsSchema,
 } from "../common";
 import { templateDb } from "mongo";
 
@@ -18,7 +18,7 @@ const BakerSchema = new Schema({
   summary: summarySchema,
   contact: contactSchema,
   educations: [educationSchema],
-  skills: [skillSchema],
+  skills: [skillsSchema],
   group_images: [groupImageSchema],
   experiences: [experienceSchema],
 });

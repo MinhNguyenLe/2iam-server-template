@@ -1,4 +1,5 @@
 export const experienceSchema = {
+  object_title: String,
   position: String,
   company: {
     name: String,
@@ -24,6 +25,7 @@ export const experienceSchema = {
 };
 
 export const projectSchema = {
+  object_title: String,
   tech_stack: [{ name: String, icon: String, link: String }],
   image: String,
   thumbnail: String,
@@ -39,6 +41,7 @@ export const projectSchema = {
 };
 
 export const educationSchema = {
+  object_title: String,
   major: String,
   training_place: {
     name: String,
@@ -57,6 +60,7 @@ export const educationSchema = {
 };
 
 export const summarySchema = {
+  object_title: String,
   my_image: String,
   details: [
     {
@@ -82,24 +86,30 @@ export const summarySchema = {
   ],
 };
 
-export const skillSchema = {
-  name: String,
-  score: Number,
-  image: String,
-  icon: String,
-  rating: Number,
-  // title: String,
-  // score: Number,
-  // group: {
-  //   name: String,
-  //   image: String,
-  //   icon: String,
-  //   rating: Number,
-  //   score: Number,
-  // },
+export const skillsSchema = {
+  object_title: String,
+  lists: [
+    {
+      name: String,
+      score: Number,
+      image: String,
+      icon: String,
+      rating: Number,
+      // title: String,
+      // score: Number,
+      // group: {
+      //   name: String,
+      //   image: String,
+      //   icon: String,
+      //   rating: Number,
+      //   score: Number,
+      // },
+    },
+  ],
 };
 
 export const certificationSchema = {
+  object_title: String,
   name: String,
   link: String,
   time: String,
@@ -109,11 +119,13 @@ export const certificationSchema = {
 };
 
 export const languageSchema = {
+  object_title: String,
   name: String, // English
   certification: [{ name: String, score: Number }], // TOEIC 900
 };
 
 export const achievementSchema = {
+  object_title: String,
   name: String,
   link: String,
   time: String,
@@ -124,6 +136,7 @@ export const achievementSchema = {
 };
 
 export const contactSchema = {
+  object_title: String,
   email: String, // personal email
   phone_number: String,
   address: String,
@@ -144,6 +157,7 @@ export const iamSchema = {
 export const groupImageSchema = { link: String, details: [String] };
 
 export const postSchema = {
+  object_title: String,
   name: String,
   link: String,
   time: String,
@@ -154,6 +168,7 @@ export const postSchema = {
 };
 
 export const myselfSchema = {
+  object_title: String,
   details: [
     {
       type: String,

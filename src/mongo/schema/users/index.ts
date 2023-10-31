@@ -7,7 +7,7 @@ import {
   educationSchema,
   summarySchema,
   certificationSchema,
-  skillSchema,
+  skillsSchema,
   languageSchema,
   achievementSchema,
   contactSchema,
@@ -25,10 +25,12 @@ const UsersSchema = new Schema(
       google: {
         id: String,
         displayName: String,
+        name: {
+          familyName: String,
+          givenName: String,
+        },
         photos: [{ value: String }],
         emails: [{ value: String, verified: Boolean }],
-        locale: String,
-        hd: String,
       },
       linkedin: {
         id: String,
@@ -53,7 +55,7 @@ const UsersSchema = new Schema(
       contact: contactSchema, // contact information
       summary: summarySchema, // more information about me and  career or anything
       myself: myselfSchema, // more details about myself
-      skills: [skillSchema],
+      skills: skillsSchema,
       educations: [educationSchema],
       experiences: [experienceSchema],
       projects: [projectSchema],

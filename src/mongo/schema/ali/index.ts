@@ -5,7 +5,7 @@ import {
   summarySchema,
   contactSchema,
   iamSchema,
-  skillSchema,
+  skillsSchema,
 } from "../common";
 import { templateDb } from "mongo";
 
@@ -17,7 +17,7 @@ const AliSchema = new Schema({
   contact: contactSchema,
   experiences: [experienceSchema],
   educations: [educationSchema],
-  skills: [skillSchema],
+  skills: [skillsSchema],
 });
 const AliModel = templateDb.model("ali", AliSchema);
 
