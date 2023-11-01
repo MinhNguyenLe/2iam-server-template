@@ -6,32 +6,32 @@ import passport from "passport";
 const router: Router = Router();
 
 router.get(
-  "/auth/3m/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  })
-);
-router.get(
-  "/auth/3m/google/callback",
-  passport.authenticate("google", {
-    successRedirect: config.url3m,
-    failureRedirect: "/api/sign-in/failure",
-  })
-);
-
-router.get(
   "/auth/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  })
+  (req, res, next) => {
+    passport.authenticate("google", {
+      scope: ["profile", "email"],
+      state: req.query.client,
+    })(req, res, next);
+  }
 );
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    successRedirect: "http://localhost:4444/dashboard",
-    failureRedirect: "/api/sign-in/failure",
-  })
-);
+router.get('/auth/google/3m', (req, res) => {
+  res.redirect('/auth/google?client=3m');
+});
+router.get("/auth/google/callback", (req, res, next) => {
+  const client = req.query.state;
+  if (client === "3m") {
+    passport.authenticate("google", {
+      successRedirect: config.url3m,
+      failureRedirect: "/api/sign-in/failure",
+    })(req, res, next);
+  } else {
+    passport.authenticate("google", {
+      successRedirect: "http://localhost:4444/dashboard",
+      failureRedirect: "/api/sign-in/failure",
+    })(req, res, next);
+  }
+});
+
 router.get(
   "/auth/linkedin",
   passport.authenticate("linkedin", {

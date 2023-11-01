@@ -2,6 +2,7 @@
 import { Router } from "express";
 import "./mongo";
 import { Request, Response } from "express";
+import { check3mFamily } from "utils";
 
 // 3m repo
 import transactions from "@components/3m/transactions/transactions.route";
@@ -16,7 +17,7 @@ import templates from "@components/templates/templates.router";
 import UsersModel from "mongo/schema/users";
 import fileUpload from "express-fileupload";
 import pdf from "pdf-parse";
-import googleAuth from "service-oauth/oauth.middleware";
+import googleAuth, { googleAuth3m } from "service-oauth/oauth.middleware";
 
 import { OpenAI } from "langchain/llms/openai";
 
@@ -65,13 +66,25 @@ router.get("/test", async (req: Request, res: Response) => {
 });
 
 router.get("/iam", [googleAuth], async (req: Request, res: Response) => {
-  // @ts-ignore
   const data = await UsersModel.findOne({ _id: req.user.id });
 
   if (!data) {
     res.status(401).send({ message: "User not found. Please sign in." });
   }
   res.status(200).send({ user: data });
+});
+
+router.get("/3m/iam", [googleAuth3m], async (req: Request, res: Response) => {
+  const data = await UsersModel.findOne({ _id: req.user.id });
+
+  if (!data) {
+    return res.status(401).send({ message: "User not found. Please sign in." });
+  }
+  if (!check3mFamily(data.oauth.google.emails[0].value)) {
+    return res.status(401).send({ message: "User not found. Please sign in." });
+  }
+
+  return res.status(200).send({ user: data });
 });
 
 router.post("/convert-pdf", fileUpload(), async (req, res) => {
