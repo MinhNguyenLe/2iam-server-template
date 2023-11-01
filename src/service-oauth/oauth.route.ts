@@ -15,7 +15,7 @@ router.get(
   }
 );
 router.get('/auth/google/3m', (req, res) => {
-  res.redirect('/auth/google?client=3m');
+  res.redirect('/api/auth/google?client=3m');
 });
 router.get("/auth/google/callback", (req, res, next) => {
   const client = req.query.state;
