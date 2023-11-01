@@ -34,7 +34,7 @@ export async function createTransaction(req, res) {
   try {
     console.log("🔥 3m 🔥 transactions/create >>> ", req.body);
 
-    await create({ type: req.body.type, label: req.body.label });
+    await create({ type: req.body.type, label: req.body.label,userId: req.user.id });
 
     res.status(200).json({ message: "Create new transaction successful" });
   } catch (error) {
