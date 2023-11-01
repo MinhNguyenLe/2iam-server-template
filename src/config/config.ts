@@ -12,6 +12,7 @@ const envsSchema = Joi.object()
     API_KEY_TOKEN: Joi.string().required(),
     MONGO_URI_DB_TEMPLATES: Joi.string().required(),
     MONGO_URI_DB_DASHBOARD: Joi.string().required(),
+    MONGO_URI_DB_3M: Joi.string().required(),
     GOOGLE_CLIENT_ID: Joi.string().required(),
     GOOGLE_CLIENT_SECRET: Joi.string().required(),
     GOOGLE_CALLBACK_URL: Joi.string().required(),
@@ -19,7 +20,6 @@ const envsSchema = Joi.object()
     LINKEDIN_CLIENT_SECRET: Joi.string().required(),
     LINKEDIN_CALLBACK_URL: Joi.string().required(),
     URL_3M: Joi.string().required(),
-    MONGO_URI_DB_3M: Joi.string().required(),
   })
   .unknown(true);
 
