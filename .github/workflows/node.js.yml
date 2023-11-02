@@ -10,16 +10,14 @@ jobs:
   build:
     runs-on: self-hosted
 
-  steps:
-  - name: Checkout actions
-    uses: actions/checkout@v4
-  - name: Use Node.js ${{ matrix.node-version }}
-    uses: actions/setup-node@v3
-    with:
-      node-version: ${{ matrix.node-version }}
-  - run: 
-      pm2 stop 2iam-server
-      npm install
-      npm run build
-      pm2 start 2iam-server
-      sudo service nginx restart
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+    - run: 
+        pm2 stop 2iam-server
+        npm install
+        npm run build
+        pm2 start 2iam-server
+        sudo service nginx restart
