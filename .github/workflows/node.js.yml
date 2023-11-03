@@ -21,13 +21,13 @@ jobs:
       run: echo "$DOT_ENV" > .env.production
     - name: Deploy
       run:
-        ls
-        pm2 list
-        pm2 stop 0
-        npm install --force
-        npm run build
-        pm2 start "npm run dev" --name 2iam-server
-        sudo service nginx restart
-        pm2 save
+        - ls
+        - pm2 list
+        - pm2 stop 0
+        - npm install --force
+        - npm run build
+        - pm2 start "npm run dev" --name 2iam-server
+        - sudo service nginx restart
+        - pm2 save
       env:
         ENV_FILE: ${{ secrets.ENV_FILE }}
