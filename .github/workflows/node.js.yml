@@ -20,7 +20,7 @@ jobs:
     - run: echo "$DOT_ENV" > .env.production
     - run: ls
     - run: pm2 list
-    - run: pm2 stop 0
+    - run: pm2 stop all
     - run: npm install --force
     - run: npm run build
       env:
