@@ -17,9 +17,8 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18.x'
-    - name: Create .env file
-      run: echo "$DOT_ENV" > .env.production
     - name: Deploy
+      run: echo "$DOT_ENV" > .env.production
       run: ls
       run: pm2 list
       run: pm2 stop 0
