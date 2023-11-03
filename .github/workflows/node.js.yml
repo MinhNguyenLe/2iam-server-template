@@ -11,15 +11,23 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v3
+    - name: Checkout the code
+      uses: actions/checkout@v4
+    - name: Setup Nodejs
+      uses: actions/setup-node@v3
       with:
         node-version: '18.x'
-    - run: ls
-    - run: pm2 list
-    - run: pm2 stop all
-    - run: npm install --force
-    - run: npm run build
-    - run: pm2 start "npm run dev" --name 2iam-server
-    - run: pm2 save
-    - run: sudo service nginx restart
+    - name: Create .env file
+      run: echo "$DOT_ENV" > .env.production
+    - name: Deploy
+      run:
+        ls
+        pm2 list
+        pm2 stop 0
+        npm install --force
+        npm run build
+        pm2 start "npm run dev" --name 2iam-server
+        sudo service nginx restart
+        pm2 save
+      env:
+        ENV_FILE: ${{ secrets.ENV_FILE }}
