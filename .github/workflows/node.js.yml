@@ -18,7 +18,7 @@ jobs:
     - run: ls
     - run: pm2 list
     - run: pm2 stop 2iam   -server
-    - run: npm install
+    - run: npm install --force
     - run: npm run build
     - run: pm2 start 2iam  -server
     - run: pm2 save
