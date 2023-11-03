@@ -34,9 +34,8 @@ jobs:
     - run: ls
     - run: pm2 list
     - run: npm install --force
-    - run: npm run build
       env:
         ENV_FILE: ${{ secrets.ENV_FILE }}
-    - run: pm2 start "npm run dev" --name 2iam-server
+    - run: pm2 start "npm run dev" --name 2iam-server-from-ci
     - run: pm2 save
     - run: sudo service nginx restart
