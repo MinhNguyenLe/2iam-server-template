@@ -17,15 +17,14 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18.x'
-    - name: Deploy
-      run: echo "$DOT_ENV" > .env.production
-      run: ls
-      run: pm2 list
-      run: pm2 stop 0
-      run: npm install --force
-      run: npm run build
-      run: pm2 start "npm run dev" --name 2iam-server
-      run: sudo service nginx restart
-      run: pm2 save
+    - run: echo "$DOT_ENV" > .env.production
+    - run: ls
+    - run: pm2 list
+    - run: pm2 stop 0
+    - run: npm install --force
+    - run: npm run build
       env:
         ENV_FILE: ${{ secrets.ENV_FILE }}
+    - run: pm2 start "npm run dev" --name 2iam-server
+    - run: sudo service nginx restart
+    - run: pm2 save
