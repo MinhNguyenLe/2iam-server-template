@@ -17,9 +17,9 @@ jobs:
         node-version: '18.x'
     - run: ls
     - run: pm2 list
-    - run: pm2 stop 2iam   -server
+    - run: pm2 stop all
     - run: npm install --force
     - run: npm run build
-    - run: pm2 start 2iam  -server
+    - run: pm2 start "npm run dev" --name 2iam-server
     - run: pm2 save
     - run: sudo service nginx restart
