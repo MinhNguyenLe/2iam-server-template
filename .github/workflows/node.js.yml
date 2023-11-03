@@ -20,7 +20,7 @@ jobs:
     - name: Check for running PM2 processes
       id: check-pm2
       run: |
-        if pm2 list | grep "2iam-server"; then
+        if pm2 list | grep "2iam-server-from-ci"; then
           echo "::set-output name=running::true"
         else
           echo "::set-output name=running::false"
