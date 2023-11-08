@@ -26,7 +26,7 @@ router.get("/auth/google/callback", (req, res, next) => {
     })(req, res, next);
   } else {
     passport.authenticate("google", {
-      successRedirect: "http://localhost:4444/dashboard",
+      successRedirect: config.url2iam,
       failureRedirect: "/api/sign-in/failure",
     })(req, res, next);
   }
