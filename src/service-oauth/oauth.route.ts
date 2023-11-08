@@ -22,7 +22,6 @@ router.get("/auth/google/callback", (req, res, next) => {
       failureRedirect: "/api/sign-in/failure",
     })(req, res, next);
   } else {
-    console.log("????", config.url2iam);
     passport.authenticate("google", {
       successRedirect: config.url2iam,
       failureRedirect: "/api/sign-in/failure",

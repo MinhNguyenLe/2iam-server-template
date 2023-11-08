@@ -20,7 +20,7 @@ const envsSchema = Joi.object()
     LINKEDIN_CLIENT_SECRET: Joi.string().required(),
     LINKEDIN_CALLBACK_URL: Joi.string().required(),
     URL_3M: Joi.string().required(),
-    URM_2IAM: Joi.string().required(),
+    URL_2IAM: Joi.string().required(),
   })
   .unknown(true);
 
