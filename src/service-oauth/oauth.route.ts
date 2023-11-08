@@ -5,26 +5,24 @@ import passport from "passport";
 
 const router: Router = Router();
 
-router.get(
-  "/auth/google",
-  (req, res, next) => {
-    passport.authenticate("google", {
-      scope: ["profile", "email"],
-      state: req.query.client,
-    })(req, res, next);
-  }
-);
-router.get('/auth/google/3m', (req, res) => {
-  res.redirect('/api/auth/google?client=3m');
+router.get("/auth/google", (req, res, next) => {
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    state: req.query?.client,
+  })(req, res, next);
+});
+router.get("/auth/google/3m", (req, res) => {
+  res.redirect("/api/auth/google?client=3m");
 });
 router.get("/auth/google/callback", (req, res, next) => {
-  const client = req.query.state;
+  const client = req.query?.state;
   if (client === "3m") {
     passport.authenticate("google", {
       successRedirect: config.url3m,
       failureRedirect: "/api/sign-in/failure",
     })(req, res, next);
   } else {
+    console.log("????", config.url2iam);
     passport.authenticate("google", {
       successRedirect: config.url2iam,
       failureRedirect: "/api/sign-in/failure",
