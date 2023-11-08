@@ -18,6 +18,7 @@ const GelalsSchema = new Schema({
   projects: [projectSchema],
   skills: [skillsSchema],
   iam: iamSchema,
+  is_active: Boolean,
 });
 const GelalsModel = templateDb.model("gelals", GelalsSchema);
 

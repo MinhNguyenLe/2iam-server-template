@@ -65,6 +65,7 @@ const UsersSchema = new Schema(
       languages: [languageSchema],
       group_images: [groupImageSchema],
     },
+    templates: [{ name: String, id: String }],
   },
   { typeKey: "$type" }
 );
