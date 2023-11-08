@@ -38,7 +38,7 @@ router.use(oauth);
 router.use(templates);
 
 router.get("/started", (req: Request, res: Response) => {
-  res.status(200).send("Hello");
+  res.status(200).send({ msg: "Hello" });
 });
 
 // router.get("/test", async (req: Request, res: Response) => {

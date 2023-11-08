@@ -35,7 +35,9 @@ app.use(
       "http://localhost:4444",
       "http://localhost:12000",
       "http://localhost:5000",
-      "https://3m.2iam.net"
+      "http://localhost:7000",
+      "https://3m.2iam.net",
+      "https://dashboard.2iam.net"
     ],
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
