@@ -91,7 +91,7 @@ export const skillsSchema = {
   lists: [
     {
       name: String,
-      score: Number,
+      score: String,
       image: String,
       icon: String,
       rating: Number,
