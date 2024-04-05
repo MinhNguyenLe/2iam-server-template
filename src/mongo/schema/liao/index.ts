@@ -6,7 +6,7 @@ import {
   summarySchema,
   languageSchema,
   certificationSchema,
-  skillSchema,
+  skillsSchema,
   achievementSchema,
   contactSchema,
 } from "../common";
@@ -21,7 +21,7 @@ const LiaoSchema = new Schema({
   educations: [educationSchema],
   languages: [languageSchema],
   certifications: [certificationSchema],
-  skills: [skillSchema],
+  skills: [skillsSchema],
   achievements: [achievementSchema],
   contact: contactSchema,
 });

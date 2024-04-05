@@ -35,7 +35,7 @@ const deleteUser = (req: Request, res: Response) => {
 };
 
 const updateResume = async (req: any, res: Response) => {
-  await updateResumeById(req.user.id, req.dataValidated);
+  await updateResumeById(req.user.id, req.dataValidated.resume);
 
   res.status(httpStatus.OK);
   res.send({ message: "Updated" });

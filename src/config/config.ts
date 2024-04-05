@@ -12,12 +12,15 @@ const envsSchema = Joi.object()
     API_KEY_TOKEN: Joi.string().required(),
     MONGO_URI_DB_TEMPLATES: Joi.string().required(),
     MONGO_URI_DB_DASHBOARD: Joi.string().required(),
+    MONGO_URI_DB_3M: Joi.string().required(),
     GOOGLE_CLIENT_ID: Joi.string().required(),
     GOOGLE_CLIENT_SECRET: Joi.string().required(),
     GOOGLE_CALLBACK_URL: Joi.string().required(),
     LINKEDIN_CLIENT_ID: Joi.string().required(),
     LINKEDIN_CLIENT_SECRET: Joi.string().required(),
     LINKEDIN_CALLBACK_URL: Joi.string().required(),
+    URL_3M: Joi.string().required(),
+    URL_2IAM: Joi.string().required(),
   })
   .unknown(true);
 
@@ -44,4 +47,7 @@ export default {
   linkedinClientId: envVars.LINKEDIN_CLIENT_ID,
   linkedinClientSecret: envVars.LINKEDIN_CLIENT_SECRET,
   linkedinCallbackUrl: envVars.LINKEDIN_CALLBACK_URL,
+  url3m: envVars.URL_3M,
+  mongoUri3m: envVars.MONGO_URI_DB_3M,
+  url2iam: envVars.URL_2IAM,
 };

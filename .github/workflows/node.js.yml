@@ -1,0 +1,41 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v4
+    - name: Setup Nodejs
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+    # - name: Check for running PM2 processes
+    #   id: check-pm2
+    #   run: |
+    #     if pm2 list | grep "2iam-server-from-ci"; then
+    #       echo "::set-output name=running::true"
+    #     else
+    #       echo "::set-output name=running::false"
+    #     fi
+    #   continue-on-error: true
+
+    # - name: Stop PM2 processes
+    #   if: steps.check-pm2.outputs.running == 'true'
+    #   run: pm2 kill
+    # - run: echo "$DOT_ENV" > .env.production
+    # - run: ls
+    # - run: pm2 list
+    # - run: npm install --force
+    #   env:
+    #     ENV_FILE: ${{ secrets.ENV_FILE }}
+    # - run: pm2 start "npm run dev" --name 2iam-server-from-ci
+    # - run: pm2 save
+    # - run: sudo service nginx restart

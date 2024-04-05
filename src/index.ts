@@ -1,19 +1,19 @@
-import { Server } from 'http';
-import app from '@app';
-import config from '@config/config';
-import logger from '@core/utils/logger';
-import errorHandler from 'core/utils/errorHandler';
+import { Server } from "http";
+import app from "@app";
+import config from "@config/config";
+import logger from "@core/utils/logger";
+import errorHandler from "core/utils/errorHandler";
 
 const { port } = config;
 
 const server: Server = app.listen(port, (): void => {
-  logger.info(`Aapplication listens on PORT: ${port}`);
+  logger.info(`Application listens on PORT: ${port}`);
 });
 
 const exitHandler = (): void => {
   if (app) {
     server.close(() => {
-      logger.info('Server closed');
+      logger.info("Server closed");
       process.exit(1);
     });
   } else {
@@ -28,15 +28,14 @@ const unexpectedErrorHandler = (error: Error): void => {
   }
 };
 
-process.on('uncaughtException', unexpectedErrorHandler);
-process.on('unhandledRejection', (reason: Error) => {
+process.on("uncaughtException", unexpectedErrorHandler);
+process.on("unhandledRejection", (reason: Error) => {
   throw reason;
 });
 
-process.on('SIGTERM', () => {
-  logger.info('SIGTERM received');
+process.on("SIGTERM", () => {
+  logger.info("SIGTERM received");
   if (server) {
     server.close();
   }
 });
-

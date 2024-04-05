@@ -11,7 +11,7 @@ import {
   updateResume,
 } from "./user.controller";
 import createUserValidation from "./createUser.validation";
-import googleAuth from "@core/middlewares/googleAuth.middleware";
+import googleAuth from "service-oauth/oauth.middleware";
 import { completeValidation } from "@core/middlewares/validator";
 
 const router: Router = Router();
@@ -29,70 +29,70 @@ router.post(
   "/users/update-resume",
   [
     googleAuth,
-    body("iam.position").optional().isString(),
-    body("iam.full_name").optional().isString(),
-    body("iam.nickname").optional().isString(),
-    body("iam.image").optional().isString(),
+    body("resume.iam.position").optional().isString(),
+    body("resume.iam.full_name").optional().isString(),
+    body("resume.iam.nickname").optional().isString(),
+    body("resume.iam.image").optional().isString(),
 
-    body("contact.object_title").optional().isString(),
-    body("contact.email").optional().isEmail(),
-    body("contact.number_phone").optional().isMobilePhone(),
-    body("contact.address").optional().isString(),
-    body("contact.email_service").optional().isEmail(),
-    body("contact.current_company").optional().isString(),
-    body("contact.website")
+    body("resume.contact.object_title").optional().isString(),
+    body("resume.contact.email").optional().isEmail(),
+    body("resume.contact.number_phone").optional().isMobilePhone(),
+    body("resume.contact.address").optional().isString(),
+    body("resume.contact.email_service").optional().isEmail(),
+    body("resume.contact.current_company").optional().isString(),
+    body("resume.contact.website")
       .optional()
       .isString()
       .isURL({ protocols: ["https", "http"] }),
-    body("contact.social_media").optional().isArray(),
-    body("contact.social_media.*.name").optional().isString(),
-    body("contact.social_media.*.icon").optional().isString(),
-    body("contact.social_media.*.link")
-      .optional()
-      .isString()
-      .isURL({ protocols: ["https", "http"] }),
-
-    body("educations.object_title").optional().isString(),
-
-    body("educations.lists").optional().isArray(),
-    body("educations.lists.*.learning_time").optional().isString(),
-    body("educations.lists.*.major").optional().isString(),
-    body("educations.lists.*.score").optional().isString(),
-    body("educations.lists.*.status").optional().isString(),
-    body("educations.lists.*.training_place.name").optional().isString(),
-    body("educations.lists.*.training_place.link")
+    body("resume.contact.social_media").optional().isArray(),
+    body("resume.contact.social_media.*.name").optional().isString(),
+    body("resume.contact.social_media.*.icon").optional().isString(),
+    body("resume.contact.social_media.*.link")
       .optional()
       .isString()
       .isURL({ protocols: ["https", "http"] }),
 
-    body("educations.lists.*.details").optional().isArray(),
-    body("educations.lists.*.details.*.paragraph").optional().isString(),
+    body("resume.educations.object_title").optional().isString(),
 
-    body("experiences.object_title").optional().isString(),
-    body("experiences.lists").optional().isArray(),
-    body("experiences.lists.*.period").optional().isString(),
-    body("experiences.lists.*.position").optional().isString(),
-    body("experiences.lists.*.skills").optional().isString(),
+    body("resume.educations.lists").optional().isArray(),
+    body("resume.educations.lists.*.learning_time").optional().isString(),
+    body("resume.educations.lists.*.major").optional().isString(),
+    body("resume.educations.lists.*.score").optional().isString(),
+    body("resume.educations.lists.*.status").optional().isString(),
+    body("resume.educations.lists.*.training_place.name").optional().isString(),
+    body("resume.educations.lists.*.training_place.link")
+      .optional()
+      .isString()
+      .isURL({ protocols: ["https", "http"] }),
 
-    body("experiences.lists.*.details").optional().isArray(),
-    body("experiences.lists.*.details.*.paragraph").optional().isString(),
+    body("resume.educations.lists.*.details").optional().isArray(),
+    body("resume.educations.lists.*.details.*.paragraph").optional().isString(),
 
-    body("experiences.lists.*.details.*.lists").optional().isArray(),
-    body("experiences.lists.*.details.*.lists.*.content").optional().isString(),
+    body("resume.experiences.object_title").optional().isString(),
+    body("resume.experiences.lists").optional().isArray(),
+    body("resume.experiences.lists.*.period").optional().isString(),
+    body("resume.experiences.lists.*.position").optional().isString(),
+    body("resume.experiences.lists.*.skills").optional().isString(),
 
-    body("summary.object_title").optional().isString(),
+    body("resume.experiences.lists.*.details").optional().isArray(),
+    body("resume.experiences.lists.*.details.*.paragraph").optional().isString(),
 
-    body("summary.details").optional().isArray(),
-    body("summary.details.*.paragraph").optional().isString(),
+    body("resume.experiences.lists.*.details.*.lists").optional().isArray(),
+    body("resume.experiences.lists.*.details.*.lists.*.content").optional().isString(),
 
-    body("summary.details.*.lists").optional().isArray(),
-    body("summary.details.*.lists.*.content").optional().isString(),
+    body("resume.summary.object_title").optional().isString(),
 
-    body("skills.object_title").optional().isString(),
+    body("resume.summary.details").optional().isArray(),
+    body("resume.summary.details.*.paragraph").optional().isString(),
 
-    body("skills.lists").optional().isArray(),
-    body("skills.lists.*.name").optional().isString(),
-    body("skills.lists.*.score").optional().isString(),
+    body("resume.summary.details.*.lists").optional().isArray(),
+    body("resume.summary.details.*.lists.*.content").optional().isString(),
+
+    body("resume.skills.object_title").optional().isString(),
+
+    body("resume.skills.lists").optional().isArray(),
+    body("resume.skills.lists.*.name").optional().isString(),
+    body("resume.skills.lists.*.score").optional().isString(),
 
     completeValidation,
   ],

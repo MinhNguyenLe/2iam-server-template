@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getByUserId, insertErfjs, verifyDuplicate } from "./erfjs.controller";
-import googleAuth from "@core/middlewares/googleAuth.middleware";
+import googleAuth from "service-oauth/oauth.middleware";
 
 import { body } from "express-validator";
 import {
