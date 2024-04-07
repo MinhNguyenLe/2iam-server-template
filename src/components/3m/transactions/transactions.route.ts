@@ -7,6 +7,8 @@ import {
   updateTransaction,
   changeTransactionTypeController,
   getListTransactionByPaginationAndFilter,
+  getReportMonthly,
+  getReportQuarterly
 } from "./transactions.controller";
 
 const router: Router = Router();
@@ -29,5 +31,16 @@ router.post(
   [googleAuth3m],
   changeTransactionTypeController
 );
+router.get(
+  "/transaction/report-monthly",
+  // [googleAuth3m],
+  getReportMonthly
+);
+// TODO not work need be fix query
+// router.get(
+//   "/transaction/report-quarterly",
+//   [googleAuth3m],
+//   getReportQuarterly
+// );
 
 export default router;

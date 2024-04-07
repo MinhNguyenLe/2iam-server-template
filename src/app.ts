@@ -17,7 +17,7 @@ import { googleStrategy, linkedInStrategy } from "service-oauth";
 const app: Application = express();
 
 passport.use(googleStrategy);
-passport.use(linkedInStrategy);
+// passport.use(linkedInStrategy);
 
 passport.serializeUser((user, cb) => {
   console.log("serializeUser", user);
@@ -59,7 +59,7 @@ app.use(express.json());
 // );
 app.use(
   cookieSession({
-    maxAge: 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
     keys: ["secret"],
     name: "session",
   })

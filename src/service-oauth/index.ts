@@ -15,17 +15,17 @@ const googleStrategy = new GoogleStrategy.Strategy(
   }
 );
 
-const linkedInStrategy = new LinkedInStrategy.Strategy(
-  {
-    clientID: config.linkedinClientId,
-    clientSecret: config.linkedinClientSecret,
-    callbackURL: config.linkedinCallbackUrl,
-    scope: ["profile", "openid"],
-    profileFields: ["id", "picture-url", "public-profile-url", "headline"],
-  },
-  async function (accessToken, refreshToken, profile, cb) {
-    return cb(null, profile);
-  }
-);
-
+// const linkedInStrategy = new LinkedInStrategy.Strategy(
+//   {
+//     clientID: config.linkedinClientId,
+//     clientSecret: config.linkedinClientSecret,
+//     callbackURL: config.linkedinCallbackUrl,
+//     scope: ["profile", "openid"],
+//     profileFields: ["id", "picture-url", "public-profile-url", "headline"],
+//   },
+//   async function (accessToken, refreshToken, profile, cb) {
+//     return cb(null, profile);
+//   }
+// );
+const linkedInStrategy = {};
 export { googleStrategy, linkedInStrategy };

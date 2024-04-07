@@ -4,7 +4,37 @@ import {
   getTransactionByType,
   update,
   getListTransaction,
+  reportMonthly,
+  reportQuarterly,
 } from "./transactions.service";
+
+export async function getReportQuarterly(req, res) {
+  try {
+    console.log("🔥 3m 🔥 transactions/report-quarterly >>> ", req.query);
+
+    const data = await reportQuarterly({
+      filter: req.query,
+    });
+
+    res.status(200).send({ data });
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+}
+
+export async function getReportMonthly(req, res) {
+  try {
+    console.log("🔥 3m 🔥 transactions/report-monthly >>> ", req.query);
+
+    const data = await reportMonthly({
+      filter: req.query,
+    });
+
+    res.status(200).send({ totalByType: data });
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+}
 
 export async function getTotalValue(req, res) {
   try {
@@ -34,7 +64,11 @@ export async function createTransaction(req, res) {
   try {
     console.log("🔥 3m 🔥 transactions/create >>> ", req.body);
 
-    await create({ type: req.body.type, label: req.body.label,userId: req.user.id });
+    await create({
+      type: req.body.type,
+      label: req.body.label,
+      userId: req.user.id,
+    });
 
     res.status(200).json({ message: "Create new transaction successful" });
   } catch (error) {
@@ -99,11 +133,9 @@ export async function getListTransactionByPaginationAndFilter(req, res) {
       pagination: req.query.pagination,
     });
 
-    res.status(200).send({
-      data: data[0]?.data || [],
-      total: data[0]?.count?.[0]?.total || 0,
-    });
+    res.status(200).send(data);
   } catch (error) {
+    console.log(error);
     res.status(500).send({ error });
   }
 }

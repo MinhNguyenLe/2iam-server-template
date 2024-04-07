@@ -1,4 +1,100 @@
 import TransactionsModel from "mongo/schema/3m/transactions";
+import UsersModel from "mongo/schema/users";
+
+// Get the start and end dates of a quarter based on the quarter and year
+function getQuarterDates(quarter, year) {
+  const quarterStartMonth = (quarter - 1) * 3;
+  const quarterStartDate = new Date(year, quarterStartMonth, 1);
+  const quarterEndDate = new Date(
+    year,
+    quarterStartMonth + 3,
+    0,
+    23,
+    59,
+    59,
+    999
+  );
+  return { quarterStartDate, quarterEndDate };
+}
+
+export function reportQuarterly({ filter }: any) {
+  const $match = { isProduction: true };
+  if (filter.year && filter.quarter) {
+    const { quarterStartDate, quarterEndDate } = getQuarterDates(
+      filter.quarter,
+      filter.year
+    );
+
+    $match["label.date"] = {
+      $gte: quarterStartDate,
+      $lte: quarterEndDate,
+    };
+  }
+  if (filter["label.type"]) {
+    $match["label.type"] = filter["label.type"];
+  }
+
+  const expenditure = TransactionsModel.aggregate([
+    {
+      $match,
+    },
+    {
+      $project: {
+        week: { $isoWeek: "$label.date" },
+        "label.date": 1,
+        "label.value": 1,
+      },
+    },
+    {
+      $group: {
+        _id: { $month: "$label.date" },
+        weekStart: { $first: "$label.date" },
+        weekEnd: { $last: "$label.date" },
+        total: { $sum: "$label.value" },
+      },
+    },
+  ]);
+  return expenditure.exec();
+}
+
+export function reportMonthly({ filter }: any) {
+  if (!filter.year || !filter["label.type"]) {
+    return [];
+  }
+
+  const $match = { isProduction: true };
+  if (filter.year) {
+    $match["label.date"] = {
+      $gte: new Date(filter.year, 0, 1), // start year
+      $lte: new Date(filter.year, 11, 31, 23, 59, 59, 999), // end year
+    };
+  }
+  if (filter.type) {
+    $match["type"] = filter.type;
+  }
+  if (filter["label.type"]) {
+    $match["label.type"] = filter["label.type"];
+  }
+
+  const expenditure = TransactionsModel.aggregate([
+    {
+      $match,
+    },
+    {
+      $group: {
+        _id: {
+          year: { $year: "$label.date" },
+          month: { $month: "$label.date" },
+        },
+        total: { $sum: "$label.value" },
+      },
+    },
+    {
+      $sort: { "_id.month": 1 },
+    },
+  ]);
+  return expenditure.exec();
+}
 
 export function getTransactionByType({ filter, type }: any) {
   const $filter = { $match: { isProduction: true } };
@@ -98,7 +194,7 @@ export async function getListTransaction({ pagination, filter }: any) {
       $regex: filter["search.description"],
     };
   }
-
+  const users = await UsersModel.find({});
   const transactionCollection = TransactionsModel.aggregate([
     {
       $project: {
@@ -112,6 +208,7 @@ export async function getListTransaction({ pagination, filter }: any) {
           date: 1,
           description: 1,
         },
+        userId: 1,
       },
     },
     $filter,
@@ -130,6 +227,15 @@ export async function getListTransaction({ pagination, filter }: any) {
       },
     },
   ]);
+  const transactions = await transactionCollection.exec();
 
-  return transactionCollection.exec();
+  return {
+    total: transactions[0]?.count?.[0]?.total || 0,
+    data: transactions[0]?.data?.map((transaction) => {
+      const user = users.find(
+        (user) => user._id.toString() === transaction.userId
+      );
+      return { ...transaction, username: user?.oauth?.google?.displayName };
+    }),
+  };
 }
