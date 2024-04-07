@@ -5,16 +5,15 @@ import {
   update,
   getListTransaction,
   reportMonthly,
-  reportQuarterly,
+  locallyFunc,
+  getJARS,
 } from "./transactions.service";
 
-export async function getReportQuarterly(req, res) {
+export async function getJARSController(req, res) {
   try {
-    console.log("🔥 3m 🔥 transactions/report-quarterly >>> ", req.query);
+    console.log("🔥 3m 🔥 transactions/get-jars >>> ");
 
-    const data = await reportQuarterly({
-      filter: req.query,
-    });
+    const data = await getJARS();
 
     res.status(200).send({ data });
   } catch (error) {
@@ -68,6 +67,7 @@ export async function createTransaction(req, res) {
       type: req.body.type,
       label: req.body.label,
       userId: req.user.id,
+      jars: req.body.jars,
     });
 
     res.status(200).json({ message: "Create new transaction successful" });
@@ -132,6 +132,17 @@ export async function getListTransactionByPaginationAndFilter(req, res) {
       filter: req.query.filter,
       pagination: req.query.pagination,
     });
+
+    res.status(200).send(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error });
+  }
+}
+
+export async function locallyController(req, res) {
+  try {
+    const data = await locallyFunc();
 
     res.status(200).send(data);
   } catch (error) {

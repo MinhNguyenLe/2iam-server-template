@@ -1,60 +1,12 @@
 import TransactionsModel from "mongo/schema/3m/transactions";
 import UsersModel from "mongo/schema/users";
+import JARSModel from "mongo/schema/3m/jars";
 
-// Get the start and end dates of a quarter based on the quarter and year
-function getQuarterDates(quarter, year) {
-  const quarterStartMonth = (quarter - 1) * 3;
-  const quarterStartDate = new Date(year, quarterStartMonth, 1);
-  const quarterEndDate = new Date(
-    year,
-    quarterStartMonth + 3,
-    0,
-    23,
-    59,
-    59,
-    999
-  );
-  return { quarterStartDate, quarterEndDate };
-}
+// just one record
+const _idJARS = "66125fe0a54a64403da81237";
 
-export function reportQuarterly({ filter }: any) {
-  const $match = { isProduction: true };
-  if (filter.year && filter.quarter) {
-    const { quarterStartDate, quarterEndDate } = getQuarterDates(
-      filter.quarter,
-      filter.year
-    );
-
-    $match["label.date"] = {
-      $gte: quarterStartDate,
-      $lte: quarterEndDate,
-    };
-  }
-  if (filter["label.type"]) {
-    $match["label.type"] = filter["label.type"];
-  }
-
-  const expenditure = TransactionsModel.aggregate([
-    {
-      $match,
-    },
-    {
-      $project: {
-        week: { $isoWeek: "$label.date" },
-        "label.date": 1,
-        "label.value": 1,
-      },
-    },
-    {
-      $group: {
-        _id: { $month: "$label.date" },
-        weekStart: { $first: "$label.date" },
-        weekEnd: { $last: "$label.date" },
-        total: { $sum: "$label.value" },
-      },
-    },
-  ]);
-  return expenditure.exec();
+export async function getJARS() {
+  return JARSModel.findOneAndUpdate({ _id: _idJARS });
 }
 
 export function reportMonthly({ filter }: any) {
@@ -119,7 +71,7 @@ export function getTransactionByType({ filter, type }: any) {
   return expenditure.exec();
 }
 
-export function create({ type, label, userId }: any) {
+export async function create({ type, label, userId, jars }: any) {
   const newTransaction = new TransactionsModel({
     isProduction: true,
     type,
@@ -128,7 +80,13 @@ export function create({ type, label, userId }: any) {
     userId,
   });
 
-  return newTransaction.save();
+  await newTransaction.save();
+  await JARSModel.findOneAndUpdate(
+    { _id: _idJARS },
+    {
+      $inc: jars,
+    }
+  );
 }
 
 export async function update({ type, label, idTransaction }: any) {
@@ -238,4 +196,15 @@ export async function getListTransaction({ pagination, filter }: any) {
       return { ...transaction, username: user?.oauth?.google?.displayName };
     }),
   };
+}
+
+export async function locallyFunc() {
+  await JARSModel.findOneAndUpdate(
+    { _id: _idJARS },
+    {
+      $inc: { nec: -100000 },
+    }
+  );
+
+  return JARSModel.findOne({ _id: _idJARS });
 }
