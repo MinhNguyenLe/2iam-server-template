@@ -7,6 +7,7 @@ import {
   reportMonthly,
   locallyFunc,
   getJARS,
+  remove
 } from "./transactions.service";
 
 export async function getJARSController(req, res) {
@@ -96,11 +97,12 @@ export async function removeTransaction(req, res) {
   try {
     console.log("🔥 3m 🔥 transactions/remove >>> ", req.body);
 
-    await update({
+    await remove({
       idTransaction: req.body.idTransaction,
+      jars: req.body.jars
     });
 
-    res.status(200).json({ message: "Remove successful" });
+    res.status(200).json({ message: "Remove successfl" });
   } catch (error) {
     res.status(500).send({ error });
   }

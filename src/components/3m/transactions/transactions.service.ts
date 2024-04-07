@@ -101,10 +101,16 @@ export async function update({ type, label, idTransaction }: any) {
   await transaction.save();
 }
 
-export function remove({ idTransaction }: any) {
-  return TransactionsModel.findOneAndRemove({
+export async function remove({ idTransaction, jars }: any) {
+  await TransactionsModel.findOneAndRemove({
     _id: idTransaction,
   });
+  await JARSModel.findOneAndUpdate(
+    { _id: _idJARS },
+    {
+      $inc: jars,
+    }
+  );
 }
 
 export function changeTransactionType({ type, idTransaction }: any) {
